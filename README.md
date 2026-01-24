@@ -9,7 +9,7 @@ Para rodar o projeto localmente, siga os passos abaixo:
 
 1. **Clone o repositório:**
    ```bash
-   git clone [LINK_DO_SEU_REPOSITÓRIO_PRIVADO]
+   git clone https://github.com/j040lop3s/projeto-dti.git
 
 2. **Instale as dependências:**
    ```bash
@@ -19,7 +19,7 @@ Para rodar o projeto localmente, siga os passos abaixo:
    ```bash
    npm start
 
-A aplicação estará disponível em http://localhost:3000
+A aplicação estará disponível em http://localhost:5174/
 
 
 # Principais técnicas utilizadas:
