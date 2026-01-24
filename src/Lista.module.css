@@ -1,0 +1,16 @@
+.botaoRemover {
+  background-color: transparent;
+  color: #ec130b;
+  border: 1px solid #ec130b;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.botaoRemover:hover {
+  background-color: #ec130b;
+  color: white;
+}
