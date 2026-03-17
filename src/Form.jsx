@@ -78,12 +78,12 @@ function Form({ aoSucesso, tarefaParaEditar, limparEdicao }) {
         if (ehEdicao) {
             resultado = await supabase
                 .from('lista_tarefas')
-                .update(dados)
+                .update(dados) // UPDATE - O método update do Supabase recebe um objeto com os campos a serem atualizados e seus novos valores.
                 .eq('id', tarefaParaEditar.id);
         } else {
             resultado = await supabase
                 .from('lista_tarefas')
-                .insert([dados]);
+                .insert([dados]); // CREATE - O método insert do Supabase espera um array de objetos, mesmo que seja apenas um item, por isso os colchetes.
         }
 
         if (!resultado.error) {

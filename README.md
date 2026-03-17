@@ -1,6 +1,6 @@
 # Sistema CRUD de Agenda Online Full-Stack
 
-Este projeto é uma aplicação web completa para gerenciamento de tarefas. Ele nasceu como um exercício de lógica e evoluiu para uma estrutura Full Stack, integrando uma interface reativa em React com um servidor Node.js e banco de dados PostgreSQL.
+Este projeto é uma aplicação web completa para gerenciamento de tarefas. Ele nasceu como um exercício de lógica e evoluiu para uma estrutura Full Stack, integrando uma interface reativa em React com um servidor BackEnd Supabase baseado em PostgreSQL.
 
 # O que faz?
 
@@ -19,9 +19,8 @@ CSS Modules: Estilização isolada por componente para evitar conflitos de estil
 
 ## Backend & Banco de Dados
 
-Node.js & Express: Servidor para processar as requisições da API.
 PostgreSQL (Supabase): Banco de dados relacional para armazenamento seguro dos lembretes.
-CORS & Dotenv: Segurança e gerenciamento de variáveis de ambiente.
+CreateClient(): Para conexão direta com banco de dados, abstraindo códigos backend;
 
 ## Instruções para Execução
 
@@ -35,20 +34,10 @@ Para rodar esta aplicação, você precisará de dois terminais abertos simultan
    ```bash
    npm install
 
-3. **Entre na pasta server, instale as dependências e configure seu arquivo .env com as chaves do Supabase:**
-   ```bash
-   cd src/server
-   npm install 
-
 3. **Coloque para rodar:**
    TERMINAL 1:
    ```bash
    npm run dev
-
-4. **Coloque para rodar (dentro de src/server):**
-   TERMINAL 2:
-   ```bash
-   node index.js
 
 
 # Comentários:

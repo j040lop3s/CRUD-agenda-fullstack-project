@@ -21,11 +21,10 @@ function App() {
     }
 
     // useCallback é utilizado para evitar a recriação da função a cada renderização;
-    // Fetch obtém o json de tarefas (com tarefa, descrição e data) do banco de dados e as armazena no estado;
-    // A conversão de string para Date é necessária porque o Supabase retorna as datas como strings, e precisamos delas como objetos Date para manter a funcionalidade de agrupamento e ordenação.
+    // A partir dos métodos do Supabase, a função obtém dos dados do banco de dados, ordena por data e os armazena no estado 'tarefas'.
     const carregarTarefas = useCallback(async () => {
         const { data, error } = await supabase
-            .from('lista_tarefas')
+            .from('lista_tarefas') // READ - O método select do Supabase é usado para ler os dados de uma tabela. Ele pode receber um argumento para especificar quais colunas devem ser retornadas, mas se for passado '*' ele retorna todas as colunas.
             .select('*')
             .order('data', { ascending: true });
 
@@ -36,7 +35,7 @@ function App() {
 
         const dadosTratados = data.map(item => ({
             ...item,
-            data: new Date(item.data.split('T')[0] + 'T00:00:00')
+            data: new Date(item.data.split('T')[0] + 'T00:00:00') // Converte a string de data para um objeto Date, garantindo que a hora seja definida como meia-noite para evitar problemas de fuso horário.
         }));
         setTarefas(dadosTratados);
     }, []);
@@ -46,7 +45,7 @@ function App() {
         carregarTarefas();
     }, [carregarTarefas]);
 
-    // Função de excluir diretamente do banco de dados.
+    // DELETE - A função del recebe o ID do objeto a ser deletado, faz a requisição para o Supabase e, se não houver erro, atualiza o estado 'tarefas' removendo o item deletado.
     async function del(objID) {
         const { error } = await supabase
             .from('lista_tarefas')
