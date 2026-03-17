@@ -27,3 +27,5 @@ export default defineConfig([
     },
   },
 ])
+
+// Analisa o código, encontra erros, aplica padrões de estilo e ajuda a evitar bugs;
