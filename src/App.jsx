@@ -2,6 +2,7 @@ import Form from './Form.jsx';
 import Lista from './Lista.jsx';
 import styles from './styles/App.module.css';
 import { useState, useEffect, useCallback } from 'react';
+import { supabase } from './supabase';
 
 /* Componente pai da aplicação. Ele cria os dois estados que armazenam 
 as tarefas e a tarefa selecionada para edição;
@@ -23,19 +24,21 @@ function App() {
     // Fetch obtém o json de tarefas (com tarefa, descrição e data) do banco de dados e as armazena no estado;
     // A conversão de string para Date é necessária porque o Supabase retorna as datas como strings, e precisamos delas como objetos Date para manter a funcionalidade de agrupamento e ordenação.
     const carregarTarefas = useCallback(async () => {
-        try {
-            const resposta = await fetch('http://localhost:3000/lista_tarefas');
-            const dados = await resposta.json();
-            
-            const dadosTratados = dados.map(item => ({
-                ...item,
-                data: new Date(item.data.split('T')[0] + 'T00:00:00') // Correção do fuso horário: adiciona 'T00:00:00';
-            }));
+        const { data, error } = await supabase
+            .from('lista_tarefas')
+            .select('*')
+            .order('data', { ascending: true });
 
-            setTarefas(dadosTratados);
-        } catch (erro) {
-            console.error("Erro ao carregar tarefas do servidor:", erro);
+        if (error) {
+            console.error("Erro ao buscar dados:", error);
+            return;
         }
+
+        const dadosTratados = data.map(item => ({
+            ...item,
+            data: new Date(item.data.split('T')[0] + 'T00:00:00')
+        }));
+        setTarefas(dadosTratados);
     }, []);
 
     // Carrega as tarefas do banco de dados uma vez quando o componente é montado;
@@ -45,17 +48,13 @@ function App() {
 
     // Função de excluir diretamente do banco de dados.
     async function del(objID) {
-        try {
-            const resposta = await fetch(`http://localhost:3000/lista_tarefas/${objID}`, {
-                method: 'DELETE'
-            });
+        const { error } = await supabase
+            .from('lista_tarefas')
+            .delete()
+            .eq('id', objID);
 
-            if (resposta.ok) {
-                // Se a chamada for bem-sucedida, remove a tarefa sem renderização completa, filtrando a tarefa removida do estado.
-                setTarefas(prev => prev.filter(item => item.id !== objID));
-            }
-        } catch (erro) {
-            console.error("Erro ao remover tarefa:", erro);
+        if (!error) {
+            setTarefas(prev => prev.filter(item => item.id !== objID));
         }
     }
 

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import styles from './styles/Form.module.css';
+import { supabase } from './supabase';
 
 /* Esquema de validação usando Zod, que define as regras para os campos 
 de entrada - tarefa, descrição e data.
@@ -71,34 +72,26 @@ function Form({ aoSucesso, tarefaParaEditar, limparEdicao }) {
 
     
     const onSubmit = async (dados) => {
-        // Verifica se existe uma tarefa para editar. Negação dupla garante que o valor seja convertido.
-        const ehEdicao = !!tarefaParaEditar; 
+        const ehEdicao = !!tarefaParaEditar;
+        let resultado;
 
-        const url = ehEdicao 
-        ? `http://localhost:3000/lista_tarefas/${tarefaParaEditar.id}` 
-        : 'http://localhost:3000/lista_tarefas'; // Se for edição a URL do fetch busca a tareda pelo ID no supabase.
-
-        const metodo = ehEdicao ? 'PUT' : 'POST'; // Definindo o método HTTP com base na operação (edição ou criação).
-
-        try {
-            const resposta = await fetch(url, {
-            method: metodo,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados),
-        });
-        
-        if (resposta.ok) {
-            aoSucesso(); // Prop recebida de App.jsx - Se a chamada fetch for bem-sucedida, carrega as tarefas do banco de dados.
-            reset();
-            
-            if (ehEdicao) {
-                limparEdicao(); // Prop recebida de App.jsx - Se for uma edição, limpa o estado de edição para voltar ao modo de criação. 
-            }
+        if (ehEdicao) {
+            resultado = await supabase
+                .from('lista_tarefas')
+                .update(dados)
+                .eq('id', tarefaParaEditar.id);
+        } else {
+            resultado = await supabase
+                .from('lista_tarefas')
+                .insert([dados]);
         }
-            } catch (erro) {
-                console.error("Erro na comunicação com o servidor:", erro);
-            }
-        };
+
+        if (!resultado.error) {
+            aoSucesso();
+            reset();
+            if (ehEdicao) limparEdicao();
+        }
+    };
 
     return (
     

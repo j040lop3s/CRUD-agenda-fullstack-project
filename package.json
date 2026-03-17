@@ -10,10 +10,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@supabase/supabase-js": "^2.99.2",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "pg": "^8.20.0",
