@@ -1,0 +1,73 @@
+
+.addTaskCard {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid #D7D6D6;
+}
+
+
+.cardTitle {
+  background-color: #36413E; 
+  padding: 1.25rem 1.5rem;
+  color: #FFFFFF;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.formBody {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formField label {
+  font-size: 0.9rem;
+  color: #5d5e60;
+}
+
+.formField input,
+.formField textarea,
+.formField select {
+  border: 1px solid #D7D6D6;
+  border-radius: 6px;
+  padding: 0.75rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.formField input:focus,
+.formField textarea:focus,
+.formField select:focus {
+  outline: none;
+  border-color: #beb2c8;
+  box-shadow: 0 0 0 3px rgba(190, 178, 200, 0.3);
+}
+
+.formField textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.addButton {
+  background-color: #beb2c8;
+  color: #36413E;
+  border: none;
+  padding: 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.addButton:hover {
+  background-color: #a89bb6;
+}

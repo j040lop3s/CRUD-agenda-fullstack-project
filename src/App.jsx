@@ -1,34 +1,93 @@
 import Form from './Form.jsx';
 import Lista from './Lista.jsx';
-import { useState } from 'react';
+import styles from './styles/App.module.css';
+import { useState, useEffect, useCallback } from 'react';
+
+/* Componente pai da aplicação. Ele cria os dois estados que armazenam 
+as tarefas e a tarefa selecionada para edição;
+
+A função 'selecionarParaEditar' é quem recebe a tarefa e define o estado;
+*/
 
 function App() {
-    const [lembretes,setLembretes] = useState([]);
+    const [tarefas, setTarefas] = useState([]);
+    const [editando, setEditando] = useState(null);
 
-    function add(obj) {
-        setLembretes([...lembretes,obj]);
+    function selecionarParaEditar(tarefa) {
+        
+        setEditando(tarefa);
+
     }
 
-    function del(objID) {
-        setLembretes(ModLista => ModLista.filter(item => item.id !== objID));
+    // useCallback é utilizado para evitar a recriação da função a cada renderização;
+    // Fetch obtém o json de tarefas (com tarefa, descrição e data) do banco de dados e as armazena no estado;
+    // A conversão de string para Date é necessária porque o Supabase retorna as datas como strings, e precisamos delas como objetos Date para manter a funcionalidade de agrupamento e ordenação.
+    const carregarTarefas = useCallback(async () => {
+        try {
+            const resposta = await fetch('http://localhost:3000/lista_tarefas');
+            const dados = await resposta.json();
+            
+            const dadosTratados = dados.map(item => ({
+                ...item,
+                data: new Date(item.data.split('T')[0] + 'T00:00:00') // Correção do fuso horário: adiciona 'T00:00:00';
+            }));
+
+            setTarefas(dadosTratados);
+        } catch (erro) {
+            console.error("Erro ao carregar tarefas do servidor:", erro);
+        }
+    }, []);
+
+    // Carrega as tarefas do banco de dados uma vez quando o componente é montado;
+    useEffect(() => {
+        carregarTarefas();
+    }, [carregarTarefas]);
+
+    // Função de excluir diretamente do banco de dados.
+    async function del(objID) {
+        try {
+            const resposta = await fetch(`http://localhost:3000/lista_tarefas/${objID}`, {
+                method: 'DELETE'
+            });
+
+            if (resposta.ok) {
+                // Se a chamada for bem-sucedida, remove a tarefa sem renderização completa, filtrando a tarefa removida do estado.
+                setTarefas(prev => prev.filter(item => item.id !== objID));
+            }
+        } catch (erro) {
+            console.error("Erro ao remover tarefa:", erro);
+        }
     }
 
-    function comparar(a,b) {
+    // Função de comparação para ordenar as tarefas por data. A ordenação é feita antes de passar as tarefas para o componente Lista, garantindo que elas sejam exibidas em ordem cronológica.
+    function comparar(a, b) {
         return a.data - b.data;
     }
 
-    const ListaEmOrdem = [...lembretes].sort(comparar);
+    const ListaEmOrdem = [...tarefas].sort(comparar); // Cria uma cópia do array de tarefas e o ordena usando a função de comparação.
 
     return (
-        <>
-        <h1>Lembretes</h1>
-        <Form  adiciona={add}/>
+    <div className={styles.container}>
 
-        <h2>Lista</h2>
-        <Lista itens={ListaEmOrdem} remove={del}/>
-        </>
-    )
+        <h1 className={styles.logo}>Agenda Online</h1>
+
+        <main className={styles.mainContent}>
+            <aside>
+                <Form 
+                    aoSucesso={carregarTarefas} 
+                    tarefaParaEditar={editando} 
+                    limparEdicao={() => setEditando(null)} 
+                />
+            </aside>
+            <section>
+                <div className={styles.tasksHeader}>
+                    <h2 className={styles.tasksHeaderTitle}>Suas Tarefas</h2>
+                </div>
+                <Lista itens={ListaEmOrdem} remove={del} aoEditar={selecionarParaEditar} />
+            </section>
+        </main>
+    </div>
+    );
 }
 
 export default App;
-

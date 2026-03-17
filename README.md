@@ -1,37 +1,60 @@
-# Sistema de Lembretes - Teste Prático dti digital
+# Sistema CRUD de Agenda Online Full-Stack
 
+Este projeto é uma aplicação web completa para gerenciamento de tarefas. Ele nasceu como um exercício de lógica e evoluiu para uma estrutura Full Stack, integrando uma interface reativa em React com um servidor Node.js e banco de dados PostgreSQL.
 
-Foi proposto o teste de criar uma aplicação possível de criar, adicionar ou remover lembretes através de uma lista dinâmica. Inicialmente, afim de compor as ideias e desafios possíveis, fiz rascunhos em um arquivo 'script.js'. O projeto utiliza conceitos de programação orientada a objetos - intâncias de classes - bem como manipulação de arrays para organização dos dados e renderização de React Elements.
+# O que faz?
+
+-- Você pode criar, ler, editar e excluir lembretes em tempo real. 
+-- Diferente de uma lista local, aqui os dados são salvos em um banco de dados PostgreSQL via Supabase.
+-- O sistema organiza automaticamente as tarefas por dia, facilitando a visualização da agenda.
+-- Uso de Zod para garantir que você não salve datas no passado ou campos vazios.
+
+# Tecnologias utilizadas
+
+## Frontend
+
+React (Vite): Para uma interface rápida e componentes reutilizáveis.
+React Hook Form & Zod: Gerenciamento de formulários e validação de dados.
+CSS Modules: Estilização isolada por componente para evitar conflitos de estilo.
+
+## Backend & Banco de Dados
+
+Node.js & Express: Servidor para processar as requisições da API.
+PostgreSQL (Supabase): Banco de dados relacional para armazenamento seguro dos lembretes.
+CORS & Dotenv: Segurança e gerenciamento de variáveis de ambiente.
 
 ## Instruções para Execução
 
-Para rodar o projeto localmente, siga os passos abaixo:
+Para rodar esta aplicação, você precisará de dois terminais abertos simultaneamente.
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/j040lop3s/projeto-dti.git
+   git clone https://github.com/j040lop3s/CRUD-agenda-fullstack-project.git
 
 2. **Instale as dependências:**
    ```bash
    npm install
 
-3. **Inicie a aplicação:**
+3. **Entre na pasta server, instale as dependências e configure seu arquivo .env com as chaves do Supabase:**
    ```bash
-   npm start
+   cd src/server
+   npm install 
 
-A aplicação estará disponível em http://localhost:5174/
+3. **Coloque para rodar:**
+   TERMINAL 1:
+   ```bash
+   npm run dev
+
+4. **Coloque para rodar (dentro de src/server):**
+   TERMINAL 2:
+   ```bash
+   node index.js
 
 
-# Principais técnicas utilizadas:
+# Comentários:
 
-* Utilizei a separação de responsabilidades e integração de componentes - pai e filhos - utilizando props.
+Durante o desenvolvimento, priorizei a separação de responsabilidades. O Frontend cuida da experiência do usuário (UX), enquanto o Backend valida as regras de negócio e garante a integridade dos dados no banco.
 
-* Centralizei a lógica dos dados em intâncias de objetos, validando erros e gerando retornos com {try ... catch}.
-
-* Manipulação de estados e arrays com métodos como .sort(), .filter(), reduce() e map().
-
-* CSS Modules: Cada compenente com seu arquivo de estilo para evitar conflitos.
-
-* Orientação a Objetos.
+*Arquivos de código possuem comentários detalhando o funcionamento de cada componente.
 
 

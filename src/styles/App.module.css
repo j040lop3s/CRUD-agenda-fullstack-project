@@ -1,0 +1,73 @@
+
+:root {
+  --primary-color: #beb2c8; 
+  --secondary-color: #D7D6D6;
+  --dark-color: #36413E;
+  --dark-secondary-color: #5d5e60;
+  --white: #FFFFFF;
+}
+
+.container {
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--white);
+  min-width: 100vh;
+}
+
+.topNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--dark-color);
+  padding: 1.5rem 3rem;
+  color: var(--white);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: var(--white);
+  transition: color 0.3s;
+}
+
+.navLinks a:hover {
+  color: var(--primary-color);
+}
+
+.profile {
+  font-weight: bold;
+}
+
+.mainContent {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  padding: 12px;
+  max-width: 1600px;
+  margin: auto;
+}
+
+.tasksHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.tasksHeaderTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--dark-color);
+}
