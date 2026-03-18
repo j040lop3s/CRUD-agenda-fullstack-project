@@ -88,8 +88,8 @@ function Form({ aoSucesso, tarefaParaEditar, limparEdicao }) {
 
         if (!resultado.error) {
             aoSucesso();
-            reset();
             if (ehEdicao) limparEdicao();
+            reset({ tarefa: '', descricao: '', data: '' });
         }
     };
 
