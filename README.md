@@ -35,7 +35,6 @@ Para rodar esta aplicação, você precisará de dois terminais abertos simultan
    npm install
 
 3. **Coloque para rodar:**
-   TERMINAL 1:
    ```bash
    npm run dev
 
